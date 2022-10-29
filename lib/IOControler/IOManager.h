@@ -4,6 +4,6 @@ class IOManager{
     public:
         IOManager();
         void pinSetConfig();
-        void openGarage();
-        void closeGarage();
+        void openGarage(String user);
+        void closeGarage(String user);
 };
