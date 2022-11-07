@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 class Variables{
     public:
 
@@ -10,6 +12,12 @@ class Variables{
         const char* USER_MQTT = "userESP8266";
         const char* PASS_MQTT = "67ESP826667";
 
+        const char* TOPIC_CMND_LIGHT = "cmnd/light";
+        String SERVICE_LIGHTS[1] = {"light1"};
+        String CMND_OFF_LIGHT = "\"desligado\"";
+        String CMND_ON_LIGHT = "\"ligado\"";
+
+        
         const char* TOPIC_CMND_GARAGE = "cmnd/garage";
         String CMND_CLOSE_GARAGE = "\"fechado\"";
         String CMND_OPEN_GARAGE = "\"aberto\"";
@@ -22,6 +30,7 @@ class Variables{
         const long  DAYLIGHTOFFSET_SEC = -10800;
 
         // -------------X CONST PINS X------------- // 
+        int PIN_LIGHTS[1] = {16};
         int PIN_CMND = 5;
 
         // -------------X CONST API X------------- // 

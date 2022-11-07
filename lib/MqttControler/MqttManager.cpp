@@ -31,9 +31,21 @@ void callback(char* topic, byte* payload, unsigned int length) {
   JSONVar msgMqttJson = JSON.parse(msg);
 
   if (top.equals(varMqtt.TOPIC_CMND_GARAGE)){
-    String cmnd = JSON.stringify(msgMqttJson[0]["newState"]);
-    String user = JSON.stringify(msgMqttJson[1]["user"]);
+    String cmnd = JSON.stringify(msgMqttJson["newState"]);
+    String user = JSON.stringify(msgMqttJson["user"]);
+    Serial.printf("[ESP8266] ENTROU NO TOPICO GARAGE CMND: %s USER: %s", cmnd, user);
     mqttControl.cmndGarage(cmnd, user);
+
+  } else if (top.equals(varMqtt.TOPIC_CMND_LIGHT)){
+    int light = JSON.stringify(msgMqttJson["light"]).toInt();
+    String user = JSON.stringify(msgMqttJson["user"]);
+    String cmnd = JSON.stringify(msgMqttJson["newState"]);
+
+    Serial.printf("[ESP8266] ENTROU NO TOPICO LIGHT: %d CMND: %s USER: %s", light, cmnd, user);
+
+    if(light == 0){
+      ioControl.cmndLight(light, cmnd, user);
+    }
   }
 }
 
@@ -63,6 +75,7 @@ void reconnect() {
     if (client -> connect(clientId.c_str(), varMqtt.USER_MQTT, varMqtt.PASS_MQTT)) {
       Serial.println("CONECTADO!!!");
       client -> subscribe(varMqtt.TOPIC_CMND_GARAGE);
+      client -> subscribe(varMqtt.TOPIC_CMND_LIGHT);
       
     } else if (client -> state() == -2){
       Serial.println("[MQTT] FALHOU, STATE = -2");
